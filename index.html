@@ -21,7 +21,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" />
 <link rel="shortcut icon" href="/assets/img/favicon.ico" />
 <meta name="apple-mobile-web-app-title" content="Thy Nobles" />
-<link rel="manifest" href="/site.webmanifest" />
+<link rel="manifest" href="site.webmanifest" />
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -146,6 +146,13 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+          <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registered successfully.'))
+        .catch(err => console.error('Service Worker registration failed:', err));
+    }
+  </script>
 
 </body>
 
