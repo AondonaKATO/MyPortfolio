@@ -176,7 +176,7 @@
     </section><!-- /Resume Section -->
 
   </main>
-<button id="downloadPDF">Download as PDF</button>
+<!--<button id="downloadPDF">Download as PDF</button>-->
 
   <footer id="footer" class="footer dark-background">
     <div class="container">
@@ -224,7 +224,6 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Select the content of the page (you can also specify a specific element, e.g., '#content')
     doc.html(document.body, {
       callback: function (doc) {
         doc.save('Kato_resume.pdf');
