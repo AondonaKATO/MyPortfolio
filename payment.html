@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Signup</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://sdk.monnify.com/plugin/monnify.js"></script> <!-- Monnify SDK -->
+</head>
+<body>
+
+<header>
+  <h1>Welcome to Our Course</h1>
+  <p>Sign up, make a payment, and join our learning group!</p>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="teachers.html">Teachers</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="courses.html">Courses</a>
+  </nav>
+</header>
+
+<section id="signup">
+  <h2>Sign Up</h2>
+  <form id="signupForm">
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="course">Course:</label>
+    <input type="text" id="course" name="course" readonly />
+    
+    <button type="submit">Continue to Payment</button>
+  </form>
+</section>
+
+<section id="payment" style="display: none;">
+  <h2>Make Payment</h2>
+  <p id="amountText">Amount: ₦100,000</p>
+  <p><em>Enable pop-up for this site to complete payment</em></p>
+  <button id="monnifyPaymentButton">Pay with Monnify</button>
+</section>
+
+<section id="confirmation" style="display: none;">
+  <h2>Thank You!</h2>
+  <p>Your payment was successful. Click below to join the learning group:</p>
+  <a href="https://example.com/learning-group" target="_blank">Join Learning Group</a>
+  <button onclick="printReceipt()">Print Receipt</button>
+</section>
+
+<script>
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  let paymentAmount = 100000; // Default
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const courseName = getQueryParam("course") || "No course selected";
+    const price = parseFloat(getQueryParam("price")) || 100000;
+
+    paymentAmount = price;
+
+    document.getElementById("course").value = courseName;
+    document.getElementById("amountText").textContent = `Amount: ₦${price.toLocaleString()}`;
+  });
+
+  document.getElementById('signupForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    document.getElementById('signup').style.display = 'none';
+    document.getElementById('payment').style.display = 'block';
+  });
+
+  document.getElementById('monnifyPaymentButton').addEventListener('click', function () {
+    MonnifySDK.initialize({
+      amount: paymentAmount,
+      currency: "NGN",
+      reference: "REF" + Math.floor(Math.random() * 1000000000),
+      customerName: document.getElementById('name').value,
+      customerEmail: document.getElementById('email').value,
+      apiKey: "MK_TEST_H8TSJGZFDN", // 🔁 Replace with your real API key
+      contractCode: "2100482480",   // 🔁 Replace with your real contract code
+      paymentDescription: "Course Payment",
+      onComplete: function (response) {
+        if (response.paymentReference) {
+          alert('Payment successful! Reference: ' + response.paymentReference);
+          document.getElementById('payment').style.display = 'none';
+          document.getElementById('confirmation').style.display = 'block';
+        } else {
+          alert('Payment not completed. Please try again.');
+        }
+      },
+      onClose: function () {
+        alert('Payment window closed.');
+      }
+    });
+  });
+
+  function printReceipt() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const course = document.getElementById('course').value;
+    const receiptContent = `
+      <html>
+      <head>
+        <title>Payment Receipt</title>
+        <style>
+          body { text-align: center; font-family: Arial, sans-serif; }
+          .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.2;
+            z-index: -1;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="logo1.png" class="watermark" width="300" height="300" />
+        <h2>Payment Receipt</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Course:</strong> ${course}</p>
+        <p><strong>Amount Paid:</strong> ₦${paymentAmount.toLocaleString()}</p>
+        <p>Thank you for your payment!</p>
+      </body>
+      </html>
+    `;
+    const receiptWindow = window.open('', '_blank');
+    receiptWindow.document.write(receiptContent);
+    receiptWindow.document.close();
+    receiptWindow.print();
+  }
+</script>
+
+</body>
+</html>
