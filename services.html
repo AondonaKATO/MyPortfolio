@@ -112,10 +112,10 @@
               <div class="icon">
                 <i class="bi bi-activity"></i>
               </div>
-              <a href="#" class="stretched-link">
-                <h3>Management System</h3>
+              <a href="#" class="stretched-link pay-btn" data-name="Management System" data-price="500000">
+  <h3>Management System</h3>
               </a>
-              <p>Custom-built software for business management (CRM, ERP) – ₦500,000 and above.</p>
+              <p>Custom-built software for business management (CRM, ERP) – ₦500,000.</p>
             </div>
           </div><!-- End Service Item -->
 
@@ -124,10 +124,10 @@
               <div class="icon">
                 <i class="bi bi-broadcast"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#" class="stretched-link pay-btn" data-name="Website/App" data-price="300000">
                 <h3>Website/App</h3>
               </a>
-              <p>Professional website or mobile app design and development – ₦300,000 and above.</p>
+              <p>Professional website or mobile app design and development – ₦300,000.</p>
             </div>
           </div><!-- End Service Item -->
 
@@ -136,7 +136,7 @@
               <div class="icon">
                 <i class="bi bi-easel"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#" class="stretched-link pay-btn" data-name="Physical Training" data-price="100000">
                 <h3>Physical Training</h3>
               </a>
               <p>Hands-on coding workshops and developer training at your location – ₦100,000 per session.</p>
@@ -148,10 +148,10 @@
               <div class="icon">
                 <i class="bi bi-bounding-box-circles"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#" class="stretched-link pay-btn" data-name="Contract/Project Management" data-price="500000">
                 <h3>Contract/Project Management</h3>
               </a>
-              <p>Oversight and execution of tech projects from start to finish – ₦150,000 per project.</p>
+              <p>Oversight and execution of tech projects from start to finish – ₦500,000 per project.</p>
               <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
@@ -161,7 +161,7 @@
               <div class="icon">
                 <i class="bi bi-calendar4-week"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#" class="stretched-link pay-btn" data-name="Online Training" data-price="75,000">
                 <h3>Online Training</h3>
               </a>
               <p>Virtual coding lessons via live sessions or pre-recorded content – ₦75,000 per course.</p>
@@ -174,7 +174,7 @@
               <div class="icon">
                 <i class="bi bi-chat-square-text"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#" class="stretched-link pay-btn" data-name="Mentorship" data-price="50000">
                 <h3>Mentorship</h3>
               </a>
               <p>Personalized mentorship in coding and tech development – ₦50,000 per month.</p>
@@ -231,6 +231,23 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+    <script>
+    document.querySelectorAll('.pay-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+  
+        const name = this.getAttribute('data-name');
+        const price = this.getAttribute('data-price');
+  
+        // You can now redirect to a payment page with URL params
+        // Or pass data into a form/modal
+  
+        // Example: Redirect to payment page with course name and price
+        const paymentURL = `payment.html?course=${encodeURIComponent(name)}&price=${price}`;
+        window.location.href = paymentURL;
+      });
+    });
+  </script>
 
 </body>
 
